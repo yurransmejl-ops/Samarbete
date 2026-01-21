@@ -1,0 +1,25 @@
+Jag ska klona och sätta upp ett Git-projekt för samarbete med automatisk synkning. Här är Git-repositoriet:
+
+Git Repository: https://github.com/yurransmejl-ops/Samarbete.git
+
+Jag behöver att du:
+1. Klonar projektet från GitHub-repositoriet ovan till en lokal mapp
+2. Säkerställer att alla scripts har körbar rättighet (chmod +x på alla .sh filer och Git hooks i .git/hooks/)
+3. Verifierar att alla automatiska funktioner är aktiverade:
+   - Automatisk pull vid session start (via VS Code task med runOn: "folderOpen")
+   - Automatisk push vid commit (via Git post-commit hook)
+   - Automatisk push vid session slut (via .session-end.sh script)
+   - Auto-save och auto-fetch i VS Code/Cursor inställningar
+4. Kontrollera att VS Code/Cursor inställningar är korrekta för automatisk synkning (kontrollera .vscode/settings.json)
+5. Testa att allt fungerar genom att göra en liten teständring, committa den, och verifiera att den pushas automatiskt till GitHub
+
+Se till att projektet är identiskt konfigurerat med samma automatiska funktioner som finns i huvudprojektet. Alla scripts, hooks och konfigurationsfiler ska vara på plats och fungera korrekt.
+
+Efter setup, kontrollera specifikt:
+- Att sync.sh, .session-start.sh, .session-end.sh, .cursor-hooks.sh är körbara
+- Att alla filer i .git/hooks/ är körbara (pre-commit, post-commit, pre-push, post-merge)
+- Att .vscode/tasks.json innehåller task för "🚀 Session Start - Pull from GitHub" med runOn: "folderOpen"
+- Att .vscode/settings.json har git.postCommitCommand: "push" och files.autoSave: "afterDelay"
+- Att samarbete.code-workspace filen finns och är korrekt konfigurerad
+
+Gör en fullständig verifiering och bekräfta att allt är på plats och fungerar.

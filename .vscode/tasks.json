@@ -7,17 +7,24 @@
       "command": "source .session-start.sh",
       "problemMatcher": [],
       "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "focus": false,
-        "clear": false
+        "reveal": "silent",
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
       },
       "runOptions": {
         "runOn": "folderOpen"
       },
-      "group": {
-        "kind": "build",
-        "isDefault": false
+      "isBackground": false
+    },
+    {
+      "label": "💾 Session End - Save Changes",
+      "type": "shell",
+      "command": "./.session-end.sh",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
       }
     },
     {
@@ -27,7 +34,7 @@
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "dedicated"
       }
     },
     {
@@ -37,31 +44,17 @@
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "dedicated"
       }
     },
     {
-      "label": "🔄 Sync with GitHub",
+      "label": "🔄 Sync (Pull + Push)",
       "type": "shell",
       "command": "./sync.sh sync",
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
-        "panel": "new"
-      },
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
-    },
-    {
-      "label": "💾 Session End - Save Changes",
-      "type": "shell",
-      "command": "./.session-end.sh",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
+        "panel": "dedicated"
       }
     }
   ]

@@ -1,14 +1,22 @@
 {
-  "task.autoDetect": "on",
-  "task.quickOpen.history": 10,
+  // Automatisk filsparning
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 1000,
-  "git.autoRepositoryDetection": true,
-  "git.enableSmartCommit": true,
-  "git.confirmSync": false,
+  
+  // Git inställningar för automatisk synkning
   "git.autofetch": true,
   "git.autofetchPeriod": 60,
-  "terminal.integrated.defaultProfile.osx": "zsh",
   "git.postCommitCommand": "push",
-  "git.showPushSuccessNotification": true
+  "git.confirmSync": false,
+  
+  // Task inställningar
+  "task.autoDetect": "on",
+  
+  // Terminal inställningar
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  
+  // Övriga inställningar
+  "files.exclude": {
+    "**/.git": false
+  }
 }

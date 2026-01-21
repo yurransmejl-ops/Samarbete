@@ -1,33 +1,87 @@
 # Samarbete
 
-Projekt för samarbete mellan teammedlemmar.
+Projekt för samarbete mellan teammedlemmar med automatisk Git-synkning.
 
-## Git Workflow
+## 🚀 Snabbstart
 
-Detta projekt är konfigurerat för automatisk synkning:
+### Första gången
+1. Klona projektet: `git clone https://github.com/yurransmejl-ops/Samarbete.git`
+2. Gå in i mappen: `cd Samarbete`
 
-- **Vid session start**: Projektet pullar automatiskt senaste ändringar
-- **Efter ändringar**: Använd `npm run sync` eller `./sync.sh` för att pusha ändringar
-
-## Användning
-
-### Hämta senaste ändringar
+### Vid varje session start
+Kör detta för att hämta senaste ändringar:
 ```bash
-npm run pull
+source .session-start.sh
 # eller
 ./sync.sh pull
 ```
 
-### Pusha ändringar
+## ⚙️ Automatisk Synkning
+
+Projektet är konfigurerat med:
+
+- **Automatisk push**: Varje commit pushas automatiskt till GitHub (via Git hook)
+- **Session start script**: Kör `.session-start.sh` vid session start för att hämta ändringar
+
+## 📝 Användning
+
+### Hämta senaste ändringar
 ```bash
-npm run push
+./sync.sh pull
 # eller
-./sync.sh push
+npm run pull
 ```
 
-### Synkronisera (pull + commit + push)
+### Pusha ändringar
 ```bash
-npm run sync
+./sync.sh push
 # eller
-./sync.sh sync
+npm run push
 ```
+
+Detta gör automatiskt:
+- `git add -A` (lägger till alla ändringar)
+- `git commit` (med timestamp)
+- `git push` (till GitHub)
+
+### Synkronisera (pull + push)
+```bash
+./sync.sh sync
+# eller
+npm run sync
+```
+
+Detta pullar först senaste ändringar, sedan pushar dina ändringar.
+
+## 🔄 Arbetsflöde
+
+**Rekommenderat arbetsflöde:**
+
+1. **Vid session start**: 
+   ```bash
+   source .session-start.sh
+   ```
+
+2. **Gör dina ändringar** i filerna
+
+3. **När du är klar med ändringar**:
+   ```bash
+   ./sync.sh push
+   ```
+
+4. **Om du vill synka innan du pushar**:
+   ```bash
+   ./sync.sh sync
+   ```
+
+## 🛠️ Tekniska Detaljer
+
+- **Git hooks**: Automatisk push efter varje commit (`.git/hooks/post-commit`)
+- **Sync script**: `sync.sh` för enkel hantering av pull/push
+- **Session script**: `.session-start.sh` för att hämta ändringar vid start
+
+## ⚠️ Obs!
+
+- Om det finns merge conflicts vid pull, lösa dem manuellt
+- Kontrollera alltid `git status` om något känns fel
+- Använd `./sync.sh sync` om du är osäker - det pullar först, sedan pushar

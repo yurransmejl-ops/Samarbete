@@ -1,0 +1,14 @@
+{
+  "task.autoDetect": "on",
+  "task.quickOpen.history": 10,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "git.autoRepositoryDetection": true,
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  "git.autofetchPeriod": 60,
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "git.postCommitCommand": "push",
+  "git.showPushSuccessNotification": true
+}

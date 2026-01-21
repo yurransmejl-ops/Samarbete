@@ -6,7 +6,11 @@
     "pull": "git pull origin main",
     "push": "git add -A && git commit -m \"Update $(date '+%Y-%m-%d %H:%M:%S')\" && git push origin main",
     "sync": "./sync.sh sync",
-    "status": "git status"
+    "status": "git status",
+    "session:start": "source .session-start.sh",
+    "session:end": "./.session-end.sh",
+    "watch": "./.watcher.sh",
+    "auto-sync": "node auto-sync.js"
   },
   "keywords": [],
   "author": "",

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HantverksHjälpen - Hitta rätt arbetare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">🔨</span>
+                <span class="logo-text">HantverksHjälpen</span>
+            </div>
+            <nav class="nav">
+                <a href="#kategorier">Kategorier</a>
+                <a href="#hur-det-fungerar">Hur det fungerar</a>
+                <a href="#kontakt">Kontakt</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1>Hitta rätt <span class="highlight">hantverkare</span> för jobbet</h1>
+            <p class="hero-subtitle">Kvalificerade yrkesmänniskor inom städning, VVS, snickeri och måleri. Enkelt, snabbt och pålitligt.</p>
+            <a href="#kategorier" class="cta-button">
+                <span>Utforska kategorier</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                </svg>
+            </a>
+        </div>
+        <div class="hero-stats">
+            <div class="stat">
+                <span class="stat-number">150+</span>
+                <span class="stat-label">Yrkesmänniskor</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">4.8</span>
+                <span class="stat-label">Medelbetyg</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">2000+</span>
+                <span class="stat-label">Nöjda kunder</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kategorier Section -->
+    <section id="kategorier" class="kategorier-section">
+        <div class="section-header">
+            <span class="section-tag">Välj kategori</span>
+            <h2>Vad behöver du hjälp med?</h2>
+        </div>
+        
+        <div class="kategori-grid">
+            <button class="kategori-card active" data-kategori="alla">
+                <div class="kategori-icon">🏠</div>
+                <span class="kategori-namn">Alla</span>
+                <span class="kategori-antal">24 arbetare</span>
+            </button>
+            <button class="kategori-card" data-kategori="stadare">
+                <div class="kategori-icon">🧹</div>
+                <span class="kategori-namn">Städare</span>
+                <span class="kategori-antal">8 arbetare</span>
+            </button>
+            <button class="kategori-card" data-kategori="rormokare">
+                <div class="kategori-icon">🔧</div>
+                <span class="kategori-namn">Rörmokare</span>
+                <span class="kategori-antal">5 arbetare</span>
+            </button>
+            <button class="kategori-card" data-kategori="snickare">
+                <div class="kategori-icon">🪚</div>
+                <span class="kategori-namn">Snickare</span>
+                <span class="kategori-antal">6 arbetare</span>
+            </button>
+            <button class="kategori-card" data-kategori="malare">
+                <div class="kategori-icon">🎨</div>
+                <span class="kategori-namn">Målare</span>
+                <span class="kategori-antal">5 arbetare</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Arbetare Section -->
+    <section class="arbetare-section">
+        <div class="section-header">
+            <span class="section-tag">Tillgängliga proffs</span>
+            <h2 id="arbetare-rubrik">Alla arbetare</h2>
+        </div>
+
+        <div class="arbetare-grid" id="arbetare-container">
+            <!-- Arbetare laddas via JavaScript -->
+        </div>
+    </section>
+
+    <!-- Hur det fungerar -->
+    <section id="hur-det-fungerar" class="hur-section">
+        <div class="section-header">
+            <span class="section-tag">Enkelt & smidigt</span>
+            <h2>Hur det fungerar</h2>
+        </div>
+        
+        <div class="hur-grid">
+            <div class="hur-step">
+                <div class="hur-number">01</div>
+                <h3>Välj kategori</h3>
+                <p>Bläddra bland våra yrkeskategorier och hitta den typ av hjälp du behöver.</p>
+            </div>
+            <div class="hur-step">
+                <div class="hur-number">02</div>
+                <h3>Jämför arbetare</h3>
+                <p>Se profiler, betyg och priser. Välj den som passar dina behov bäst.</p>
+            </div>
+            <div class="hur-step">
+                <div class="hur-number">03</div>
+                <h3>Boka direkt</h3>
+                <p>Kontakta arbetaren och boka en tid som passar er båda.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="kontakt" class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo">
+                    <span class="logo-icon">🔨</span>
+                    <span class="logo-text">HantverksHjälpen</span>
+                </div>
+                <p>Din pålitliga partner för alla typer av hantverkstjänster.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Kategorier</h4>
+                <a href="#kategorier">Städare</a>
+                <a href="#kategorier">Rörmokare</a>
+                <a href="#kategorier">Snickare</a>
+                <a href="#kategorier">Målare</a>
+            </div>
+            <div class="footer-links">
+                <h4>Kontakt</h4>
+                <a href="mailto:info@hantverkshjalpen.se">info@hantverkshjalpen.se</a>
+                <a href="tel:+46701234567">070-123 45 67</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 HantverksHjälpen. Alla rättigheter förbehållna.</p>
+        </div>
+    </footer>
+
+    <!-- Modal för arbetardetaljer -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="modal">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <div class="modal-content" id="modal-content">
+                <!-- Fylls i via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

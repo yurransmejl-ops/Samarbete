@@ -139,17 +139,24 @@ function saveUserToStorage() {
 }
 
 function updateAuthUI() {
+    const chatWidget = document.getElementById('chat-widget');
+    
     if (currentUser) {
         authButtons.style.display = 'none';
         userMenu.style.display = 'block';
+        if (chatWidget) chatWidget.style.display = 'block';
         
         const initials = getInitials(currentUser.firstname, currentUser.lastname);
         document.getElementById('user-initials').textContent = initials;
         document.getElementById('dropdown-name').textContent = `${currentUser.firstname} ${currentUser.lastname}`;
         document.getElementById('dropdown-email').textContent = currentUser.email;
+        
+        // Load conversations
+        loadConversations();
     } else {
         authButtons.style.display = 'flex';
         userMenu.style.display = 'none';
+        if (chatWidget) chatWidget.style.display = 'none';
     }
 }
 
@@ -521,9 +528,14 @@ function openModal(person) {
                 Pris från
                 <strong>${person.pris} ${person.prisEnhet}</strong>
             </div>
-            <button class="modal-kontakt" onclick="window.location.href='tel:${person.telefon}'">
-                📞 Kontakta nu
-            </button>
+            <div class="modal-actions">
+                <button class="modal-chat" onclick="startChatWithArbetare(${person.id}, '${person.namn}')">
+                    💬 Skicka meddelande
+                </button>
+                <button class="modal-kontakt" onclick="window.location.href='tel:${person.telefon}'">
+                    📞 Ring
+                </button>
+            </div>
         </div>
     `;
     
@@ -619,6 +631,363 @@ document.getElementById('skill-input')?.addEventListener('keypress', (e) => {
 document.getElementById('user-avatar-btn')?.addEventListener('click', () => {
     document.getElementById('user-dropdown')?.classList.toggle('active');
 });
+
+// ===== Chat Functions =====
+let currentChatRecipient = null;
+let chatOpen = false;
+
+function toggleChat() {
+    const chatWindow = document.getElementById('chat-window');
+    chatOpen = !chatOpen;
+    
+    if (chatOpen) {
+        chatWindow.classList.add('active');
+        loadConversations();
+    } else {
+        chatWindow.classList.remove('active');
+    }
+}
+
+function getMessages() {
+    return JSON.parse(localStorage.getItem('hjalparen_messages') || '[]');
+}
+
+function saveMessages(messages) {
+    localStorage.setItem('hjalparen_messages', JSON.stringify(messages));
+}
+
+function loadConversations() {
+    if (!currentUser) return;
+    
+    const conversationsList = document.getElementById('conversations-list');
+    if (!conversationsList) return;
+    
+    const messages = getMessages();
+    const users = JSON.parse(localStorage.getItem('hjalparen_users') || '[]');
+    
+    // Get unique conversation partners
+    const conversationPartners = new Map();
+    
+    messages.forEach(msg => {
+        if (msg.senderId === currentUser.id || msg.recipientId === currentUser.id) {
+            const partnerId = msg.senderId === currentUser.id ? msg.recipientId : msg.senderId;
+            
+            if (!conversationPartners.has(partnerId)) {
+                conversationPartners.set(partnerId, {
+                    partnerId,
+                    lastMessage: msg,
+                    unread: 0
+                });
+            } else {
+                const existing = conversationPartners.get(partnerId);
+                if (msg.timestamp > existing.lastMessage.timestamp) {
+                    existing.lastMessage = msg;
+                }
+            }
+            
+            // Count unread
+            if (msg.recipientId === currentUser.id && !msg.read) {
+                const conv = conversationPartners.get(partnerId);
+                conv.unread++;
+            }
+        }
+    });
+    
+    // Also add all hjälpare (defaultArbetare) as potential chat partners
+    const allPotentialPartners = [...conversationPartners.values()];
+    
+    // Add users who have accounts
+    users.forEach(user => {
+        if (user.id !== currentUser.id && !conversationPartners.has(user.id)) {
+            allPotentialPartners.push({
+                partnerId: user.id,
+                lastMessage: null,
+                unread: 0,
+                isUser: true,
+                userData: user
+            });
+        }
+    });
+    
+    if (allPotentialPartners.length === 0) {
+        conversationsList.innerHTML = `
+            <div class="no-conversations">
+                <p>🔍</p>
+                <p>Sök efter användare ovan för att starta en konversation</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Sort by last message time
+    allPotentialPartners.sort((a, b) => {
+        const timeA = a.lastMessage?.timestamp || 0;
+        const timeB = b.lastMessage?.timestamp || 0;
+        return timeB - timeA;
+    });
+    
+    conversationsList.innerHTML = allPotentialPartners.map(conv => {
+        let partner;
+        
+        // Check if it's a registered user
+        const user = users.find(u => u.id === conv.partnerId);
+        if (user) {
+            partner = {
+                id: user.id,
+                name: `${user.firstname} ${user.lastname}`,
+                initials: getInitials(user.firstname, user.lastname)
+            };
+        } else {
+            // Check if it's a default arbetare
+            const arbetare = defaultArbetare.find(a => a.id === conv.partnerId);
+            if (arbetare) {
+                partner = {
+                    id: arbetare.id,
+                    name: arbetare.namn,
+                    initials: getInitials(arbetare.namn.split(' ')[0], arbetare.namn.split(' ')[1])
+                };
+            } else {
+                return '';
+            }
+        }
+        
+        const preview = conv.lastMessage?.text?.substring(0, 30) + (conv.lastMessage?.text?.length > 30 ? '...' : '') || 'Starta en konversation';
+        const time = conv.lastMessage ? formatTime(conv.lastMessage.timestamp) : '';
+        
+        return `
+            <div class="conversation-item" onclick="openConversation(${partner.id}, '${partner.name}')">
+                <div class="conversation-avatar">${partner.initials}</div>
+                <div class="conversation-info">
+                    <div class="conversation-name">${partner.name}</div>
+                    <div class="conversation-preview">${preview}</div>
+                </div>
+                <div class="conversation-meta">
+                    ${time ? `<span class="conversation-time">${time}</span>` : ''}
+                    ${conv.unread > 0 ? `<span class="conversation-unread">${conv.unread}</span>` : ''}
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    updateUnreadBadge();
+}
+
+function searchUsers(query) {
+    const conversationsList = document.getElementById('conversations-list');
+    if (!conversationsList || !currentUser) return;
+    
+    const users = JSON.parse(localStorage.getItem('hjalparen_users') || '[]');
+    const searchTerm = query.toLowerCase().trim();
+    
+    if (!searchTerm) {
+        loadConversations();
+        return;
+    }
+    
+    // Search in users
+    const matchedUsers = users.filter(u => 
+        u.id !== currentUser.id &&
+        (`${u.firstname} ${u.lastname}`.toLowerCase().includes(searchTerm) ||
+         u.email.toLowerCase().includes(searchTerm))
+    );
+    
+    // Search in default arbetare
+    const matchedArbetare = defaultArbetare.filter(a => 
+        a.namn.toLowerCase().includes(searchTerm) ||
+        a.yrke.toLowerCase().includes(searchTerm)
+    );
+    
+    const results = [
+        ...matchedUsers.map(u => ({
+            id: u.id,
+            name: `${u.firstname} ${u.lastname}`,
+            subtitle: u.email,
+            initials: getInitials(u.firstname, u.lastname)
+        })),
+        ...matchedArbetare.map(a => ({
+            id: a.id,
+            name: a.namn,
+            subtitle: a.yrke,
+            initials: getInitials(a.namn.split(' ')[0], a.namn.split(' ')[1])
+        }))
+    ];
+    
+    if (results.length === 0) {
+        conversationsList.innerHTML = `
+            <div class="no-conversations">
+                <p>Inga resultat för "${query}"</p>
+            </div>
+        `;
+        return;
+    }
+    
+    conversationsList.innerHTML = results.map(r => `
+        <div class="conversation-item" onclick="openConversation(${r.id}, '${r.name}')">
+            <div class="conversation-avatar">${r.initials}</div>
+            <div class="conversation-info">
+                <div class="conversation-name">${r.name}</div>
+                <div class="conversation-preview">${r.subtitle}</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function openConversation(recipientId, recipientName) {
+    currentChatRecipient = { id: recipientId, name: recipientName };
+    
+    document.getElementById('chat-conversations').style.display = 'none';
+    document.getElementById('chat-messages-container').style.display = 'flex';
+    document.getElementById('recipient-name').textContent = recipientName;
+    document.getElementById('chat-subtitle').textContent = recipientName;
+    
+    // Mark messages as read
+    markMessagesAsRead(recipientId);
+    
+    // Load messages
+    loadMessages();
+}
+
+function showConversationsList() {
+    currentChatRecipient = null;
+    document.getElementById('chat-conversations').style.display = 'flex';
+    document.getElementById('chat-messages-container').style.display = 'none';
+    document.getElementById('chat-subtitle').textContent = 'Välj en konversation';
+    loadConversations();
+}
+
+function loadMessages() {
+    if (!currentUser || !currentChatRecipient) return;
+    
+    const messagesContainer = document.getElementById('chat-messages');
+    const messages = getMessages();
+    
+    const conversationMessages = messages.filter(msg =>
+        (msg.senderId === currentUser.id && msg.recipientId === currentChatRecipient.id) ||
+        (msg.senderId === currentChatRecipient.id && msg.recipientId === currentUser.id)
+    ).sort((a, b) => a.timestamp - b.timestamp);
+    
+    if (conversationMessages.length === 0) {
+        messagesContainer.innerHTML = `
+            <div style="text-align: center; color: var(--color-text-muted); padding: 2rem;">
+                <p>👋</p>
+                <p>Skicka ett meddelande för att starta konversationen</p>
+            </div>
+        `;
+        return;
+    }
+    
+    messagesContainer.innerHTML = conversationMessages.map(msg => {
+        const isSent = msg.senderId === currentUser.id;
+        return `
+            <div class="message ${isSent ? 'sent' : 'received'}">
+                ${msg.text}
+                <span class="message-time">${formatTime(msg.timestamp)}</span>
+            </div>
+        `;
+    }).join('');
+    
+    // Scroll to bottom
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function sendMessage() {
+    if (!currentUser || !currentChatRecipient) return;
+    
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    
+    if (!text) return;
+    
+    const messages = getMessages();
+    const newMessage = {
+        id: Date.now(),
+        senderId: currentUser.id,
+        recipientId: currentChatRecipient.id,
+        text: text,
+        timestamp: Date.now(),
+        read: false
+    };
+    
+    messages.push(newMessage);
+    saveMessages(messages);
+    
+    input.value = '';
+    loadMessages();
+}
+
+function handleChatKeypress(event) {
+    if (event.key === 'Enter') {
+        sendMessage();
+    }
+}
+
+function markMessagesAsRead(senderId) {
+    const messages = getMessages();
+    let updated = false;
+    
+    messages.forEach(msg => {
+        if (msg.senderId === senderId && msg.recipientId === currentUser.id && !msg.read) {
+            msg.read = true;
+            updated = true;
+        }
+    });
+    
+    if (updated) {
+        saveMessages(messages);
+        updateUnreadBadge();
+    }
+}
+
+function updateUnreadBadge() {
+    if (!currentUser) return;
+    
+    const badge = document.getElementById('chat-badge');
+    if (!badge) return;
+    
+    const messages = getMessages();
+    const unreadCount = messages.filter(msg => 
+        msg.recipientId === currentUser.id && !msg.read
+    ).length;
+    
+    if (unreadCount > 0) {
+        badge.style.display = 'flex';
+        badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+    } else {
+        badge.style.display = 'none';
+    }
+}
+
+function formatTime(timestamp) {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diff = now - date;
+    
+    if (diff < 60000) return 'Nu';
+    if (diff < 3600000) return `${Math.floor(diff / 60000)}m`;
+    if (diff < 86400000) return `${Math.floor(diff / 3600000)}h`;
+    if (diff < 604800000) return `${Math.floor(diff / 86400000)}d`;
+    
+    return date.toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' });
+}
+
+// Start a chat from arbetare modal
+function startChatWithArbetare(arbetareId, arbetareName) {
+    if (!currentUser) {
+        showToast('Logga in för att chatta', 'error');
+        showPage('login');
+        return;
+    }
+    
+    closeModal();
+    
+    // Open chat
+    const chatWindow = document.getElementById('chat-window');
+    chatOpen = true;
+    chatWindow.classList.add('active');
+    
+    // Open conversation
+    openConversation(arbetareId, arbetareName);
+}
 
 // ===== Initialize =====
 document.addEventListener('DOMContentLoaded', () => {

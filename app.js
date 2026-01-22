@@ -472,24 +472,49 @@ function getAllArbetare() {
     return allArbetare;
 }
 
-function renderArbetare(filterKategori = 'alla') {
+// Hur många hjälpare som visas
+const INITIAL_DISPLAY_COUNT = 6;
+const SHOW_MORE_COUNT = 6;
+let currentDisplayCount = INITIAL_DISPLAY_COUNT;
+let currentFilteredArbetare = [];
+
+function renderArbetare(filterKategori = 'alla', showMore = false) {
     const allArbetare = getAllArbetare();
-    let filtreradeArbetare = filterKategori === 'alla' 
-        ? allArbetare 
-        : allArbetare.filter(a => a.kategori === filterKategori);
+    
+    // Filtrera bort användare - visa bara de fördefinierade bästa hjälparna
+    let filtreradeArbetare = allArbetare.filter(a => !a.isUser);
+    
+    // Filtrera på kategori
+    if (filterKategori !== 'alla') {
+        filtreradeArbetare = filtreradeArbetare.filter(a => a.kategori === filterKategori);
+    }
     
     // Sortera efter betyg (högst först), sedan antal recensioner
     filtreradeArbetare.sort((a, b) => {
         if (b.betyg !== a.betyg) {
-            return b.betyg - a.betyg; // Högst betyg först
+            return b.betyg - a.betyg;
         }
-        return b.antalRecensioner - a.antalRecensioner; // Fler recensioner först vid samma betyg
+        return b.antalRecensioner - a.antalRecensioner;
     });
+    
+    // Spara för "Visa mer"
+    currentFilteredArbetare = filtreradeArbetare;
+    
+    // Reset eller öka display count
+    if (!showMore) {
+        currentDisplayCount = INITIAL_DISPLAY_COUNT;
+    } else {
+        currentDisplayCount += SHOW_MORE_COUNT;
+    }
+    
+    // Begränsa antal som visas
+    const visadeArbetare = filtreradeArbetare.slice(0, currentDisplayCount);
+    const harMer = filtreradeArbetare.length > currentDisplayCount;
     
     // Update rubrik
     const katInfo = getKategoriInfo(filterKategori);
     if (arbetareRubrik) {
-        arbetareRubrik.textContent = filterKategori === 'alla' ? 'Alla hjälpare' : katInfo.namn;
+        arbetareRubrik.textContent = filterKategori === 'alla' ? 'Topphjälpare' : katInfo.namn;
     }
     
     // Render cards
@@ -505,7 +530,7 @@ function renderArbetare(filterKategori = 'alla') {
             return;
         }
         
-        arbetareContainer.innerHTML = filtreradeArbetare.map((person, index) => {
+        const cardsHTML = visadeArbetare.map((person, index) => {
             const katInfo = getKategoriInfo(person.kategori);
             return `
                 <div class="arbetare-card" style="animation-delay: ${index * 0.05}s" data-id="${person.id}">
@@ -537,15 +562,31 @@ function renderArbetare(filterKategori = 'alla') {
             `;
         }).join('');
         
+        // Lägg till "Visa mer"-knapp om det finns fler
+        const showMoreHTML = harMer ? `
+            <div class="show-more-container">
+                <button class="show-more-btn" onclick="showMoreArbetare()">
+                    Visa fler hjälpare
+                    <span class="show-more-count">(${filtreradeArbetare.length - currentDisplayCount} till)</span>
+                </button>
+            </div>
+        ` : '';
+        
+        arbetareContainer.innerHTML = cardsHTML + showMoreHTML;
+        
         // Add event listeners
         arbetareContainer.querySelectorAll('.arbetare-card').forEach(card => {
             card.addEventListener('click', () => {
                 const id = card.dataset.id;
-                const person = filtreradeArbetare.find(a => String(a.id) === id);
+                const person = currentFilteredArbetare.find(a => String(a.id) === id);
                 if (person) openModal(person);
             });
         });
     }
+}
+
+function showMoreArbetare() {
+    renderArbetare(currentKategori, true);
 }
 
 function openModal(person) {

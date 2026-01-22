@@ -631,6 +631,41 @@ body {
     transform: scale(1.05);
 }
 
+/* Show More Button */
+.show-more-container {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
+.show-more-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2.5rem;
+    background: transparent;
+    color: var(--color-text);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.show-more-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: translateY(-2px);
+}
+
+.show-more-count {
+    color: var(--color-text-muted);
+    font-weight: 400;
+    font-size: 0.9rem;
+}
+
 /* ===== Hur Section ===== */
 .hur-section {
     padding: 6rem 2rem;

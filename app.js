@@ -12,6 +12,9 @@ const kategorier = [
     { id: 'it', namn: 'IT-support', icon: '💻' },
     { id: 'frisor', namn: 'Frisör', icon: '✂️' },
     { id: 'massage', namn: 'Massage', icon: '💆' },
+    { id: 'sjukvardskonsult', namn: 'Sjuksköterska', icon: '👩‍⚕️' },
+    { id: 'underskoterska', namn: 'Undersköterska', icon: '💉' },
+    { id: 'personligassistent', namn: 'Personlig assistent', icon: '🤝' },
     { id: 'ovrig', namn: 'Övrigt', icon: '🛠️' }
 ];
 
@@ -52,7 +55,19 @@ const defaultArbetare = [
     { id: 20, namn: "Sofia Bergström", yrke: "Frisör", kategori: "frisor", bild: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face", betyg: 4.9, antalRecensioner: 234, pris: 450, prisEnhet: "kr/klippning", beskrivning: "Erfaren frisör som kommer hem till dig. Specialiserad på moderna klippningar och färgningar.", skills: ["Herrklippning", "Damklippning", "Färgning", "Slingor"], erfarenhet: "11 år", telefon: "070-445 56 67", email: "sofia@mail.se" },
     
     // Massage - bästa betyg
-    { id: 21, namn: "Klara Nyberg", yrke: "Massör", kategori: "massage", bild: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=200&h=200&fit=crop&crop=face", betyg: 4.9, antalRecensioner: 189, pris: 600, prisEnhet: "kr/behandling", beskrivning: "Legitimerad massör med egen utrustning. Kommer hem till dig för avslappnande behandlingar.", skills: ["Klassisk massage", "Sportmassage", "Hot stone", "Aromaterapi"], erfarenhet: "9 år", telefon: "070-556 67 78", email: "klara@mail.se" }
+    { id: 21, namn: "Klara Nyberg", yrke: "Massör", kategori: "massage", bild: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=200&h=200&fit=crop&crop=face", betyg: 4.9, antalRecensioner: 189, pris: 600, prisEnhet: "kr/behandling", beskrivning: "Legitimerad massör med egen utrustning. Kommer hem till dig för avslappnande behandlingar.", skills: ["Klassisk massage", "Sportmassage", "Hot stone", "Aromaterapi"], erfarenhet: "9 år", telefon: "070-556 67 78", email: "klara@mail.se" },
+    
+    // Sjuksköterska - bästa betyg
+    { id: 22, namn: "Lisa Andersson", yrke: "Sjuksköterska", kategori: "sjukvardskonsult", bild: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=200&h=200&fit=crop&crop=face", betyg: 5.0, antalRecensioner: 234, pris: 550, prisEnhet: "kr/timme", beskrivning: "Legitimerad sjuksköterska med specialisering inom hemsjukvård. Erbjuder medicinering, sårvård och medicinsk rådgivning.", skills: ["Hemsjukvård", "Medicinering", "Sårvård", "Diabetesvård"], erfarenhet: "12 år", telefon: "070-667 78 89", email: "lisa@mail.se" },
+    { id: 23, namn: "Emma Johansson", yrke: "Sjuksköterska", kategori: "sjukvardskonsult", bild: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=200&h=200&fit=crop&crop=face", betyg: 4.9, antalRecensioner: 178, pris: 520, prisEnhet: "kr/timme", beskrivning: "Erfaren sjuksköterska med expertis inom äldreomsorg och demensvård. Kommer hem till dig för personlig vård.", skills: ["Äldreomsorg", "Demensvård", "Blodtrycksmätning", "Injektioner"], erfarenhet: "10 år", telefon: "070-778 89 90", email: "emma@mail.se" },
+    
+    // Undersköterska - bästa betyg
+    { id: 24, namn: "Maria Larsson", yrke: "Undersköterska", kategori: "underskoterska", bild: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=200&h=200&fit=crop&crop=face", betyg: 4.9, antalRecensioner: 156, pris: 380, prisEnhet: "kr/timme", beskrivning: "Utbildad undersköterska med passion för att hjälpa människor. Erbjuder personlig vård och stöd i hemmet.", skills: ["Personlig vård", "Hygien", "Måltidsstöd", "Rörelse"], erfarenhet: "8 år", telefon: "070-889 90 01", email: "maria@mail.se" },
+    { id: 25, namn: "Anna Nilsson", yrke: "Undersköterska", kategori: "underskoterska", bild: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=200&h=200&fit=crop&crop=face", betyg: 4.8, antalRecensioner: 134, pris: 360, prisEnhet: "kr/timme", beskrivning: "Gedigen erfarenhet av hemsjukvård och äldreomsorg. Hjälper med dagliga aktiviteter och medicinsk stöd.", skills: ["Hemsjukvård", "Äldreomsorg", "Dagliga aktiviteter", "Medicinstöd"], erfarenhet: "11 år", telefon: "070-990 01 12", email: "anna@mail.se" },
+    
+    // Personlig assistent - bästa betyg
+    { id: 26, namn: "Sofia Berg", yrke: "Personlig assistent", kategori: "personligassistent", bild: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face", betyg: 5.0, antalRecensioner: 198, pris: 320, prisEnhet: "kr/timme", beskrivning: "Erfaren personlig assistent med fokus på självständighet och respekt. Hjälper med dagliga aktiviteter och stöd i vardagen.", skills: ["Personligt stöd", "Dagliga aktiviteter", "Transport", "Socialt stöd"], erfarenhet: "9 år", telefon: "070-001 12 23", email: "sofia@mail.se" },
+    { id: 27, namn: "Karin Lind", yrke: "Personlig assistent", kategori: "personligassistent", bild: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face", betyg: 4.9, antalRecensioner: 167, pris: 310, prisEnhet: "kr/timme", beskrivning: "Dedikerad personlig assistent som arbetar för att ge dig bästa möjliga livskvalitet. Flexibel och pålitlig.", skills: ["Personlig assistans", "Hushållsstöd", "Fritidsaktiviteter", "Kommunikation"], erfarenhet: "7 år", telefon: "070-112 23 34", email: "karin@mail.se" }
 ];
 
 // ===== State =====

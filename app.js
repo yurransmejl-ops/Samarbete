@@ -15,49 +15,43 @@ const kategorier = [
     { id: 'ovrig', namn: 'Övrigt', icon: '🛠️' }
 ];
 
-// ===== Exempel-data för arbetare =====
+// ===== Exempel-data för arbetare (endast de med högst betyg) =====
 const defaultArbetare = [
-    // Städare
-    { id: 1, namn: "Anna Lindqvist", yrke: "Städare", kategori: "stadare", bild: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=200&h=200&fit=crop&crop=face", betyg: 4.9, antalRecensioner: 127, pris: 350, prisEnhet: "kr/timme", beskrivning: "Professionell städning med fokus på detaljer. 10 års erfarenhet av hemstädning, kontorsstädning och flyttstädning.", skills: ["Hemstädning", "Kontorsstädning", "Flyttstädning", "Fönsterputsning"], erfarenhet: "10 år", telefon: "070-123 45 67", email: "anna@mail.se" },
-    { id: 2, namn: "Erik Johansson", yrke: "Städare", kategori: "stadare", bild: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face", betyg: 4.7, antalRecensioner: 89, pris: 320, prisEnhet: "kr/timme", beskrivning: "Specialiserad på djuprengöring och sanering. Miljövänliga produkter och noggrann finish.", skills: ["Djuprengöring", "Sanering", "Trappstädning", "Golvvård"], erfarenhet: "7 år", telefon: "070-234 56 78", email: "erik@mail.se" },
+    // Städare - bästa betyg
     { id: 3, namn: "Maria Svensson", yrke: "Städare", kategori: "stadare", bild: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face", betyg: 5.0, antalRecensioner: 156, pris: 380, prisEnhet: "kr/timme", beskrivning: "Premium städtjänster för krävande kunder. Specialutbildad inom hotellstädning och VIP-service.", skills: ["Premium städning", "Hotellstandard", "Storköksrengöring"], erfarenhet: "15 år", telefon: "070-345 67 89", email: "maria@mail.se" },
+    { id: 1, namn: "Anna Lindqvist", yrke: "Städare", kategori: "stadare", bild: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=200&h=200&fit=crop&crop=face", betyg: 4.9, antalRecensioner: 127, pris: 350, prisEnhet: "kr/timme", beskrivning: "Professionell städning med fokus på detaljer. 10 års erfarenhet av hemstädning, kontorsstädning och flyttstädning.", skills: ["Hemstädning", "Kontorsstädning", "Flyttstädning", "Fönsterputsning"], erfarenhet: "10 år", telefon: "070-123 45 67", email: "anna@mail.se" },
     
-    // Rörmokare
-    { id: 4, namn: "Lars Pettersson", yrke: "Rörmokare", kategori: "rormokare", bild: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop&crop=face", betyg: 4.8, antalRecensioner: 203, pris: 550, prisEnhet: "kr/timme", beskrivning: "Auktoriserad rörmokare med över 20 års erfarenhet. Expert på VVS-installationer och reparationer.", skills: ["VVS-installation", "Avloppsrensning", "Värmepumpar", "Badrumsrenovering"], erfarenhet: "22 år", telefon: "070-111 22 33", email: "lars@mail.se" },
+    // Rörmokare - bästa betyg
     { id: 5, namn: "Anders Ström", yrke: "Rörmokare", kategori: "rormokare", bild: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&h=200&fit=crop&crop=face", betyg: 4.9, antalRecensioner: 167, pris: 580, prisEnhet: "kr/timme", beskrivning: "Certifierad för golvvärme och komplexa VVS-system. Snabb jour dygnet runt för akuta problem.", skills: ["Golvvärme", "Jour 24/7", "Läcksökning", "Vattenburna system"], erfarenhet: "18 år", telefon: "070-222 33 44", email: "anders@mail.se" },
+    { id: 4, namn: "Lars Pettersson", yrke: "Rörmokare", kategori: "rormokare", bild: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop&crop=face", betyg: 4.8, antalRecensioner: 203, pris: 550, prisEnhet: "kr/timme", beskrivning: "Auktoriserad rörmokare med över 20 års erfarenhet. Expert på VVS-installationer och reparationer.", skills: ["VVS-installation", "Avloppsrensning", "Värmepumpar", "Badrumsrenovering"], erfarenhet: "22 år", telefon: "070-111 22 33", email: "lars@mail.se" },
     
-    // Snickare
+    // Snickare - bästa betyg
     { id: 6, namn: "Gustav Ekström", yrke: "Snickare", kategori: "snickare", bild: "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=200&h=200&fit=crop&crop=face", betyg: 4.9, antalRecensioner: 189, pris: 480, prisEnhet: "kr/timme", beskrivning: "Mästersnickare med passion för hantverk. Bygger allt från altaner till platsbyggda möbler.", skills: ["Altanbygge", "Platsbyggda möbler", "Kök", "Inredning"], erfarenhet: "25 år", telefon: "070-666 77 88", email: "gustav@mail.se" },
     { id: 7, namn: "Fredrik Lind", yrke: "Snickare", kategori: "snickare", bild: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=200&h=200&fit=crop&crop=face", betyg: 4.8, antalRecensioner: 156, pris: 460, prisEnhet: "kr/timme", beskrivning: "Expert på träkonstruktioner och takarbeten. Certifierad för att arbeta på alla typer av byggnader.", skills: ["Takarbete", "Stomresning", "Tillbyggnad", "Garage"], erfarenhet: "18 år", telefon: "070-777 88 99", email: "fredrik@mail.se" },
     
-    // Målare
+    // Målare - bästa betyg
     { id: 8, namn: "Josefin Blom", yrke: "Målare", kategori: "malare", bild: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop&crop=face", betyg: 4.9, antalRecensioner: 178, pris: 420, prisEnhet: "kr/timme", beskrivning: "Kreativ målare med öga för färg och form. Specialiserad på exklusiva hem och designprojekt.", skills: ["Invändig målning", "Tapetsering", "Färgkonsultation", "Dekorationsmålning"], erfarenhet: "12 år", telefon: "070-223 34 45", email: "josefin@mail.se" },
-    { id: 9, namn: "Robin Falk", yrke: "Målare", kategori: "malare", bild: "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?w=200&h=200&fit=crop&crop=face", betyg: 4.7, antalRecensioner: 134, pris: 390, prisEnhet: "kr/timme", beskrivning: "Erfaren målare för både privata hem och företag. Snabb, pålitlig och alltid noggrann.", skills: ["Företagsmålning", "Fasadmålning", "Lackering", "Spackling"], erfarenhet: "15 år", telefon: "070-334 45 56", email: "robin@mail.se" },
     
-    // Ekonom
+    // Ekonom - bästa betyg
     { id: 10, namn: "Sara Lindberg", yrke: "Ekonom", kategori: "ekonom", bild: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face", betyg: 4.9, antalRecensioner: 145, pris: 650, prisEnhet: "kr/timme", beskrivning: "Auktoriserad redovisningskonsult med fokus på småföretag. Hjälper dig med bokföring, deklaration och ekonomisk rådgivning.", skills: ["Bokföring", "Deklaration", "Lönehantering", "Årsredovisning"], erfarenhet: "12 år", telefon: "070-444 55 66", email: "sara@mail.se" },
     { id: 11, namn: "Magnus Björk", yrke: "Ekonom", kategori: "ekonom", bild: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face", betyg: 4.8, antalRecensioner: 98, pris: 700, prisEnhet: "kr/timme", beskrivning: "Ekonomisk rådgivare med expertis inom skatteplanering och företagsekonomi. MBA från Handelshögskolan.", skills: ["Skatteplanering", "Företagsrådgivning", "Budgetering", "Finansiell analys"], erfarenhet: "18 år", telefon: "070-555 66 77", email: "magnus@mail.se" },
     
-    // Elektriker
+    // Elektriker - bästa betyg
     { id: 12, namn: "Peter Holm", yrke: "Elektriker", kategori: "elektriker", bild: "https://images.unsplash.com/photo-1552058544-f2b08422138a?w=200&h=200&fit=crop&crop=face", betyg: 4.8, antalRecensioner: 167, pris: 520, prisEnhet: "kr/timme", beskrivning: "Behörig elektriker med full behörighet. Utför allt från enklare installationer till kompletta elentreprenader.", skills: ["Elinstallation", "Säkringsbyten", "Belysning", "Smarta hem"], erfarenhet: "15 år", telefon: "070-666 77 88", email: "peter@mail.se" },
-    { id: 13, namn: "Karin Strand", yrke: "Elektriker", kategori: "elektriker", bild: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face", betyg: 4.7, antalRecensioner: 89, pris: 490, prisEnhet: "kr/timme", beskrivning: "Specialiserad på hemautomation och energieffektiva lösningar. Certifierad för solcellsinstallationer.", skills: ["Solceller", "Laddboxar", "Hemautomation", "Energioptimering"], erfarenhet: "10 år", telefon: "070-777 88 99", email: "karin@mail.se" },
     
-    // Trädgård
+    // Trädgård - bästa betyg
     { id: 14, namn: "Johan Berg", yrke: "Trädgårdsmästare", kategori: "tradgard", bild: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face", betyg: 4.9, antalRecensioner: 134, pris: 380, prisEnhet: "kr/timme", beskrivning: "Utbildad trädgårdsmästare med passion för växter. Skapar vackra trädgårdar anpassade efter kundens önskemål.", skills: ["Trädgårdsdesign", "Plantering", "Häckklippning", "Gräsmattor"], erfarenhet: "14 år", telefon: "070-888 99 00", email: "johan@mail.se" },
-    { id: 15, namn: "Emma Karlsson", yrke: "Trädgårdsmästare", kategori: "tradgard", bild: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=face", betyg: 4.8, antalRecensioner: 112, pris: 350, prisEnhet: "kr/timme", beskrivning: "Expert på ekologisk trädgårdsskötsel. Hjälper dig odla ditt eget och skapa en hållbar trädgård.", skills: ["Ekologisk odling", "Kompostering", "Fruktträd", "Grönsaksland"], erfarenhet: "8 år", telefon: "070-999 00 11", email: "emma@mail.se" },
     
-    // Flytt
+    // Flytt - bästa betyg
     { id: 16, namn: "Viktor Lund", yrke: "Flytthjälp", kategori: "flytt", bild: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=face", betyg: 4.7, antalRecensioner: 189, pris: 350, prisEnhet: "kr/timme", beskrivning: "Professionell flytthjälp med egen lastbil. Hjälper dig flytta snabbt, säkert och utan stress.", skills: ["Hemflytt", "Kontorsflytt", "Packning", "Pianoflytt"], erfarenhet: "9 år", telefon: "070-000 11 22", email: "viktor@mail.se" },
-    { id: 17, namn: "David Andersson", yrke: "Flytthjälp", kategori: "flytt", bild: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=200&h=200&fit=crop&crop=face", betyg: 4.6, antalRecensioner: 145, pris: 320, prisEnhet: "kr/timme", beskrivning: "Flexibel flytthjälp för alla behov. Från småflytt till stora projekt med team.", skills: ["Småflytt", "Bärhjälp", "Möbelmontering", "Dödsbo"], erfarenhet: "6 år", telefon: "070-112 23 34", email: "david@mail.se" },
     
-    // IT
+    // IT - bästa betyg
     { id: 18, namn: "Oscar Nyberg", yrke: "IT-support", kategori: "it", bild: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=200&h=200&fit=crop&crop=face", betyg: 4.9, antalRecensioner: 167, pris: 550, prisEnhet: "kr/timme", beskrivning: "IT-konsult med bred kompetens. Hjälper privatpersoner och småföretag med allt inom IT.", skills: ["Datorhjälp", "Nätverk", "Säkerhet", "Molntjänster"], erfarenhet: "12 år", telefon: "070-223 34 45", email: "oscar@mail.se" },
-    { id: 19, namn: "Linda Sjöberg", yrke: "IT-support", kategori: "it", bild: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=200&h=200&fit=crop&crop=face", betyg: 4.8, antalRecensioner: 98, pris: 480, prisEnhet: "kr/timme", beskrivning: "Specialiserad på webbdesign och digital marknadsföring. Hjälper dig synas online.", skills: ["Webbdesign", "WordPress", "SEO", "Sociala medier"], erfarenhet: "8 år", telefon: "070-334 45 56", email: "linda@mail.se" },
     
-    // Frisör
+    // Frisör - bästa betyg
     { id: 20, namn: "Sofia Bergström", yrke: "Frisör", kategori: "frisor", bild: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face", betyg: 4.9, antalRecensioner: 234, pris: 450, prisEnhet: "kr/klippning", beskrivning: "Erfaren frisör som kommer hem till dig. Specialiserad på moderna klippningar och färgningar.", skills: ["Herrklippning", "Damklippning", "Färgning", "Slingor"], erfarenhet: "11 år", telefon: "070-445 56 67", email: "sofia@mail.se" },
     
-    // Massage
+    // Massage - bästa betyg
     { id: 21, namn: "Klara Nyberg", yrke: "Massör", kategori: "massage", bild: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=200&h=200&fit=crop&crop=face", betyg: 4.9, antalRecensioner: 189, pris: 600, prisEnhet: "kr/behandling", beskrivning: "Legitimerad massör med egen utrustning. Kommer hem till dig för avslappnande behandlingar.", skills: ["Klassisk massage", "Sportmassage", "Hot stone", "Aromaterapi"], erfarenhet: "9 år", telefon: "070-556 67 78", email: "klara@mail.se" }
 ];
 
@@ -413,9 +407,17 @@ function getAllArbetare() {
 
 function renderArbetare(filterKategori = 'alla') {
     const allArbetare = getAllArbetare();
-    const filtreradeArbetare = filterKategori === 'alla' 
+    let filtreradeArbetare = filterKategori === 'alla' 
         ? allArbetare 
         : allArbetare.filter(a => a.kategori === filterKategori);
+    
+    // Sortera efter betyg (högst först), sedan antal recensioner
+    filtreradeArbetare.sort((a, b) => {
+        if (b.betyg !== a.betyg) {
+            return b.betyg - a.betyg; // Högst betyg först
+        }
+        return b.antalRecensioner - a.antalRecensioner; // Fler recensioner först vid samma betyg
+    });
     
     // Update rubrik
     const katInfo = getKategoriInfo(filterKategori);

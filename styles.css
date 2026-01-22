@@ -891,37 +891,104 @@ body {
     margin-bottom: 1rem;
 }
 
-/* Kategori Select */
-.kategori-select {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 0.75rem;
+/* Profile Image Upload */
+.profile-image-upload {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
 }
 
-.kategori-option {
+.profile-image-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--color-bg-elevated);
+    border: 3px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.profile-image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-image-actions {
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
+}
+
+.btn-upload {
+    display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 1rem;
-    background: var(--color-bg-elevated);
-    border: 2px solid var(--color-border);
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    background: var(--color-accent);
+    color: white;
     border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: all var(--transition);
 }
 
-.kategori-option:hover {
-    border-color: var(--color-accent);
+.btn-upload:hover {
+    background: #ff8555;
 }
 
-.kategori-option.selected {
-    background: var(--color-accent-soft);
-    border-color: var(--color-accent);
+.btn-remove-image {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all var(--transition);
 }
 
-.kategori-option .icon {
-    font-size: 1.5rem;
+.btn-remove-image:hover {
+    border-color: var(--color-error);
+    color: var(--color-error);
+}
+
+/* Kategori Dropdown */
+.kategori-dropdown {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238e8e93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.25rem;
+    padding-right: 3rem;
+}
+
+.kategori-dropdown:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+.kategori-dropdown option {
+    background: var(--color-bg-card);
+    color: var(--color-text);
+    padding: 0.5rem;
 }
 
 .kategori-option .name {
@@ -1444,9 +1511,6 @@ body {
         flex-direction: column;
     }
     
-    .kategori-select {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    }
 }
 
 /* ===== Animations ===== */

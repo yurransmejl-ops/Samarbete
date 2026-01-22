@@ -64,7 +64,6 @@ let userSkills = [];
 // ===== DOM-element =====
 const pages = document.querySelectorAll('.page');
 const kategoriGrid = document.getElementById('kategori-grid');
-const kategoriSelect = document.getElementById('kategori-select');
 const arbetareContainer = document.getElementById('arbetare-container');
 const arbetareRubrik = document.getElementById('arbetare-rubrik');
 const modalOverlay = document.getElementById('modal-overlay');
@@ -289,18 +288,82 @@ function loadListingData() {
     document.getElementById('listing-experience').value = listing.experience || '';
     document.getElementById('listing-active').checked = listing.active || false;
     
-    // Set selected category
-    const kategoriOptions = document.querySelectorAll('.kategori-option');
-    kategoriOptions.forEach(opt => {
-        opt.classList.remove('selected');
-        if (opt.dataset.kategori === listing.kategori) {
-            opt.classList.add('selected');
-        }
-    });
+    // Set selected category in dropdown
+    const kategoriDropdown = document.getElementById('listing-kategori');
+    if (kategoriDropdown && listing.kategori) {
+        kategoriDropdown.value = listing.kategori;
+    }
+    
+    // Load profile image
+    loadProfileImagePreview(listing.profileImage);
+    
+    // Update initials for image preview
+    const initialsEl = document.getElementById('profile-image-initials');
+    if (initialsEl && currentUser) {
+        initialsEl.textContent = getInitials(currentUser.firstname, currentUser.lastname);
+    }
     
     // Load skills
     userSkills = listing.skills || [];
     renderSkills();
+}
+
+// Profile image functions
+let currentProfileImage = null;
+
+function handleImageUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    // Check file size (max 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+        showToast('Bilden är för stor. Max 2MB.', 'error');
+        return;
+    }
+    
+    // Check file type
+    if (!file.type.startsWith('image/')) {
+        showToast('Endast bilder är tillåtna.', 'error');
+        return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        currentProfileImage = e.target.result;
+        loadProfileImagePreview(currentProfileImage);
+        showToast('Bild uppladdad! Glöm inte att spara.');
+    };
+    reader.readAsDataURL(file);
+}
+
+function removeProfileImage() {
+    currentProfileImage = null;
+    loadProfileImagePreview(null);
+    document.getElementById('profile-image-input').value = '';
+    showToast('Bilden borttagen.');
+}
+
+function loadProfileImagePreview(imageData) {
+    const preview = document.getElementById('profile-image-preview');
+    const img = document.getElementById('profile-image-img');
+    const initials = document.getElementById('profile-image-initials');
+    const removeBtn = document.getElementById('btn-remove-image');
+    
+    if (!preview || !img || !initials) return;
+    
+    if (imageData) {
+        img.src = imageData;
+        img.style.display = 'block';
+        initials.style.display = 'none';
+        if (removeBtn) removeBtn.style.display = 'block';
+        currentProfileImage = imageData;
+    } else {
+        img.src = '';
+        img.style.display = 'none';
+        initials.style.display = 'flex';
+        if (removeBtn) removeBtn.style.display = 'none';
+        currentProfileImage = null;
+    }
 }
 
 function renderSkills() {
@@ -360,23 +423,16 @@ function renderKategorier() {
         });
     }
     
-    // Kategori select (listing page)
-    if (kategoriSelect) {
+    // Kategori dropdown (listing page)
+    const kategoriDropdown = document.getElementById('listing-kategori');
+    if (kategoriDropdown) {
         const selectableKategorier = kategorier.filter(k => k.id !== 'alla');
-        kategoriSelect.innerHTML = selectableKategorier.map(kat => `
-            <div class="kategori-option" data-kategori="${kat.id}">
-                <span class="icon">${kat.icon}</span>
-                <span class="name">${kat.namn}</span>
-            </div>
-        `).join('');
-        
-        // Add event listeners
-        kategoriSelect.querySelectorAll('.kategori-option').forEach(opt => {
-            opt.addEventListener('click', () => {
-                kategoriSelect.querySelectorAll('.kategori-option').forEach(o => o.classList.remove('selected'));
-                opt.classList.add('selected');
-            });
-        });
+        kategoriDropdown.innerHTML = `
+            <option value="">-- Välj en kategori --</option>
+            ${selectableKategorier.map(kat => `
+                <option value="${kat.id}">${kat.icon} ${kat.namn}</option>
+            `).join('')}
+        `;
     }
 }
 
@@ -389,12 +445,16 @@ function getAllArbetare() {
     users.forEach(user => {
         if (user.listing && user.listing.active) {
             const katInfo = getKategoriInfo(user.listing.kategori);
+            // Use profile image if available, otherwise generate avatar
+            const profileImage = user.listing.profileImage || 
+                `https://ui-avatars.com/api/?name=${user.firstname}+${user.lastname}&background=ff6b35&color=fff&size=200`;
+            
             allArbetare.push({
                 id: `user-${user.id}`,
                 namn: `${user.firstname} ${user.lastname}`,
                 yrke: user.listing.title || katInfo.namn,
                 kategori: user.listing.kategori,
-                bild: `https://ui-avatars.com/api/?name=${user.firstname}+${user.lastname}&background=ff6b35&color=fff&size=200`,
+                bild: profileImage,
                 betyg: 5.0,
                 antalRecensioner: 0,
                 pris: user.listing.price || 0,
@@ -602,20 +662,23 @@ document.getElementById('profile-form')?.addEventListener('submit', (e) => {
 document.getElementById('listing-form')?.addEventListener('submit', (e) => {
     e.preventDefault();
     
-    const selectedKategori = document.querySelector('.kategori-option.selected');
+    const kategoriDropdown = document.getElementById('listing-kategori');
+    const selectedKategori = kategoriDropdown?.value;
+    
     if (!selectedKategori) {
         showToast('Välj en kategori', 'error');
         return;
     }
     
     saveListing({
-        kategori: selectedKategori.dataset.kategori,
+        kategori: selectedKategori,
         title: document.getElementById('listing-title').value,
         description: document.getElementById('listing-description').value,
         price: parseInt(document.getElementById('listing-price').value) || 0,
         experience: document.getElementById('listing-experience').value,
         skills: userSkills,
-        active: document.getElementById('listing-active').checked
+        active: document.getElementById('listing-active').checked,
+        profileImage: currentProfileImage
     });
 });
 

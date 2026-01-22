@@ -267,10 +267,33 @@
                     
                     <form id="listing-form" class="listing-form">
                         <div class="form-section">
+                            <h3>Profilbild</h3>
+                            <p class="form-hint">Lägg till en bild så kunder vet vem du är</p>
+                            <div class="profile-image-upload">
+                                <div class="profile-image-preview" id="profile-image-preview">
+                                    <span id="profile-image-initials">?</span>
+                                    <img id="profile-image-img" src="" alt="" style="display: none;">
+                                </div>
+                                <div class="profile-image-actions">
+                                    <label class="btn-upload" for="profile-image-input">
+                                        📷 Välj bild
+                                        <input type="file" id="profile-image-input" accept="image/*" onchange="handleImageUpload(event)" style="display: none;">
+                                    </label>
+                                    <button type="button" class="btn-remove-image" id="btn-remove-image" onclick="removeProfileImage()" style="display: none;">
+                                        Ta bort
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
                             <h3>Välj kategori</h3>
                             <p class="form-hint">Vilken typ av tjänster erbjuder du?</p>
-                            <div class="kategori-select" id="kategori-select">
-                                <!-- Kategorier laddas via JavaScript -->
+                            <div class="form-group">
+                                <select id="listing-kategori" class="kategori-dropdown">
+                                    <option value="">-- Välj en kategori --</option>
+                                    <!-- Kategorier laddas via JavaScript -->
+                                </select>
                             </div>
                         </div>
 

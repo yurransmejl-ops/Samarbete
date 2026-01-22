@@ -146,7 +146,23 @@ function updateAuthUI() {
         if (chatWidget) chatWidget.style.display = 'block';
         
         const initials = getInitials(currentUser.firstname, currentUser.lastname);
-        document.getElementById('user-initials').textContent = initials;
+        const userInitialsEl = document.getElementById('user-initials');
+        const userAvatarImg = document.getElementById('user-avatar-img');
+        
+        // Visa profilbild i header om den finns
+        const profileImage = currentUser.listing?.profileImage;
+        if (profileImage && userAvatarImg) {
+            userAvatarImg.src = profileImage;
+            userAvatarImg.style.display = 'block';
+            if (userInitialsEl) userInitialsEl.style.display = 'none';
+        } else {
+            if (userAvatarImg) userAvatarImg.style.display = 'none';
+            if (userInitialsEl) {
+                userInitialsEl.textContent = initials;
+                userInitialsEl.style.display = 'flex';
+            }
+        }
+        
         document.getElementById('dropdown-name').textContent = `${currentUser.firstname} ${currentUser.lastname}`;
         document.getElementById('dropdown-email').textContent = currentUser.email;
         
@@ -272,7 +288,23 @@ function loadProfileData() {
     document.getElementById('profile-phone').value = currentUser.phone || '';
     
     const initials = getInitials(currentUser.firstname, currentUser.lastname);
-    document.getElementById('profile-initials').textContent = initials;
+    const initialsEl = document.getElementById('profile-initials');
+    const avatarImg = document.getElementById('profile-avatar-img');
+    
+    // Visa profilbild om den finns
+    const profileImage = currentUser.listing?.profileImage;
+    if (profileImage && avatarImg) {
+        avatarImg.src = profileImage;
+        avatarImg.style.display = 'block';
+        if (initialsEl) initialsEl.style.display = 'none';
+    } else {
+        if (avatarImg) avatarImg.style.display = 'none';
+        if (initialsEl) {
+            initialsEl.textContent = initials;
+            initialsEl.style.display = 'flex';
+        }
+    }
+    
     document.getElementById('profile-display-name').textContent = `${currentUser.firstname} ${currentUser.lastname}`;
     document.getElementById('profile-display-email').textContent = currentUser.email;
 }
@@ -481,8 +513,8 @@ let currentFilteredArbetare = [];
 function renderArbetare(filterKategori = 'alla', showMore = false) {
     const allArbetare = getAllArbetare();
     
-    // Filtrera bort användare - visa bara de fördefinierade bästa hjälparna
-    let filtreradeArbetare = allArbetare.filter(a => !a.isUser);
+    // Inkludera alla hjälpare (både fördefinierade och användare med aktiva annonser)
+    let filtreradeArbetare = allArbetare;
     
     // Filtrera på kategori
     if (filterKategori !== 'alla') {

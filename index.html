@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HantverksHjälpen - Hitta rätt arbetare</title>
+    <title>Hjälparen - Hitta rätt person för jobbet</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,146 +13,360 @@
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <div class="logo">
-                <span class="logo-icon">🔨</span>
-                <span class="logo-text">HantverksHjälpen</span>
-            </div>
+            <a href="#" class="logo" onclick="showPage('home')">
+                <span class="logo-icon">🤝</span>
+                <span class="logo-text">Hjälparen</span>
+            </a>
             <nav class="nav">
-                <a href="#kategorier">Kategorier</a>
-                <a href="#hur-det-fungerar">Hur det fungerar</a>
-                <a href="#kontakt">Kontakt</a>
+                <a href="#kategorier" onclick="showPage('home')">Hitta hjälp</a>
+                <a href="#hur-det-fungerar" onclick="showPage('home')">Hur det fungerar</a>
             </nav>
+            <div class="auth-buttons" id="auth-buttons">
+                <button class="btn-secondary" onclick="showPage('login')">Logga in</button>
+                <button class="btn-primary" onclick="showPage('register')">Bli Hjälpare</button>
+            </div>
+            <div class="user-menu" id="user-menu" style="display: none;">
+                <button class="user-avatar" id="user-avatar-btn">
+                    <span id="user-initials">AB</span>
+                </button>
+                <div class="user-dropdown" id="user-dropdown">
+                    <div class="user-info">
+                        <span id="dropdown-name">Namn</span>
+                        <span id="dropdown-email">email@mail.se</span>
+                    </div>
+                    <a href="#" onclick="showPage('profile')">👤 Min profil</a>
+                    <a href="#" onclick="showPage('my-listing')">📝 Min annons</a>
+                    <a href="#" onclick="logout()">🚪 Logga ut</a>
+                </div>
+            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-            <h1>Hitta rätt <span class="highlight">hantverkare</span> för jobbet</h1>
-            <p class="hero-subtitle">Kvalificerade yrkesmänniskor inom städning, VVS, snickeri och måleri. Enkelt, snabbt och pålitligt.</p>
-            <a href="#kategorier" class="cta-button">
-                <span>Utforska kategorier</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                </svg>
-            </a>
-        </div>
-        <div class="hero-stats">
-            <div class="stat">
-                <span class="stat-number">150+</span>
-                <span class="stat-label">Yrkesmänniskor</span>
-            </div>
-            <div class="stat">
-                <span class="stat-number">4.8</span>
-                <span class="stat-label">Medelbetyg</span>
-            </div>
-            <div class="stat">
-                <span class="stat-number">2000+</span>
-                <span class="stat-label">Nöjda kunder</span>
-            </div>
-        </div>
-    </section>
+    <!-- Main Content Container -->
+    <main id="main-content">
+        <!-- HOME PAGE -->
+        <div id="page-home" class="page active">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-bg"></div>
+                <div class="hero-content">
+                    <h1>Hitta rätt <span class="highlight">hjälp</span> för alla behov</h1>
+                    <p class="hero-subtitle">Från städning till ekonomi, snickeri till IT-support. Hitta kvalificerade yrkesmänniskor enkelt och smidigt.</p>
+                    <div class="hero-buttons">
+                        <a href="#kategorier" class="cta-button">
+                            <span>Hitta hjälp</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </a>
+                        <button class="cta-button-secondary" onclick="showPage('register')">
+                            <span>Bli Hjälpare</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">200+</span>
+                        <span class="stat-label">Hjälpare</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">12</span>
+                        <span class="stat-label">Kategorier</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">4.8</span>
+                        <span class="stat-label">Medelbetyg</span>
+                    </div>
+                </div>
+            </section>
 
-    <!-- Kategorier Section -->
-    <section id="kategorier" class="kategorier-section">
-        <div class="section-header">
-            <span class="section-tag">Välj kategori</span>
-            <h2>Vad behöver du hjälp med?</h2>
-        </div>
-        
-        <div class="kategori-grid">
-            <button class="kategori-card active" data-kategori="alla">
-                <div class="kategori-icon">🏠</div>
-                <span class="kategori-namn">Alla</span>
-                <span class="kategori-antal">24 arbetare</span>
-            </button>
-            <button class="kategori-card" data-kategori="stadare">
-                <div class="kategori-icon">🧹</div>
-                <span class="kategori-namn">Städare</span>
-                <span class="kategori-antal">8 arbetare</span>
-            </button>
-            <button class="kategori-card" data-kategori="rormokare">
-                <div class="kategori-icon">🔧</div>
-                <span class="kategori-namn">Rörmokare</span>
-                <span class="kategori-antal">5 arbetare</span>
-            </button>
-            <button class="kategori-card" data-kategori="snickare">
-                <div class="kategori-icon">🪚</div>
-                <span class="kategori-namn">Snickare</span>
-                <span class="kategori-antal">6 arbetare</span>
-            </button>
-            <button class="kategori-card" data-kategori="malare">
-                <div class="kategori-icon">🎨</div>
-                <span class="kategori-namn">Målare</span>
-                <span class="kategori-antal">5 arbetare</span>
-            </button>
-        </div>
-    </section>
+            <!-- Kategorier Section -->
+            <section id="kategorier" class="kategorier-section">
+                <div class="section-header">
+                    <span class="section-tag">Välj kategori</span>
+                    <h2>Vad behöver du hjälp med?</h2>
+                </div>
+                
+                <div class="kategori-grid" id="kategori-grid">
+                    <!-- Kategorier laddas via JavaScript -->
+                </div>
+            </section>
 
-    <!-- Arbetare Section -->
-    <section class="arbetare-section">
-        <div class="section-header">
-            <span class="section-tag">Tillgängliga proffs</span>
-            <h2 id="arbetare-rubrik">Alla arbetare</h2>
+            <!-- Arbetare Section -->
+            <section class="arbetare-section">
+                <div class="section-header">
+                    <span class="section-tag">Tillgängliga hjälpare</span>
+                    <h2 id="arbetare-rubrik">Alla hjälpare</h2>
+                </div>
+
+                <div class="arbetare-grid" id="arbetare-container">
+                    <!-- Arbetare laddas via JavaScript -->
+                </div>
+            </section>
+
+            <!-- Hur det fungerar -->
+            <section id="hur-det-fungerar" class="hur-section">
+                <div class="section-header">
+                    <span class="section-tag">Enkelt & smidigt</span>
+                    <h2>Hur det fungerar</h2>
+                </div>
+                
+                <div class="hur-grid">
+                    <div class="hur-step">
+                        <div class="hur-number">01</div>
+                        <h3>Välj kategori</h3>
+                        <p>Bläddra bland våra yrkeskategorier och hitta den typ av hjälp du behöver.</p>
+                    </div>
+                    <div class="hur-step">
+                        <div class="hur-number">02</div>
+                        <h3>Jämför hjälpare</h3>
+                        <p>Se profiler, betyg och priser. Välj den som passar dina behov bäst.</p>
+                    </div>
+                    <div class="hur-step">
+                        <div class="hur-number">03</div>
+                        <h3>Kontakta direkt</h3>
+                        <p>Ta kontakt med hjälparen och boka en tid som passar er båda.</p>
+                    </div>
+                </div>
+
+                <div class="become-helper-cta">
+                    <h3>Vill du erbjuda dina tjänster?</h3>
+                    <p>Skapa ett konto och nå ut till hundratals potentiella kunder.</p>
+                    <button class="cta-button" onclick="showPage('register')">
+                        <span>Skapa konto gratis</span>
+                    </button>
+                </div>
+            </section>
         </div>
 
-        <div class="arbetare-grid" id="arbetare-container">
-            <!-- Arbetare laddas via JavaScript -->
+        <!-- LOGIN PAGE -->
+        <div id="page-login" class="page">
+            <section class="auth-section">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <h1>Välkommen tillbaka</h1>
+                        <p>Logga in på ditt konto</p>
+                    </div>
+                    <form id="login-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="login-email">E-post</label>
+                            <input type="email" id="login-email" placeholder="din@email.se" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Lösenord</label>
+                            <input type="password" id="login-password" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn-primary btn-full">Logga in</button>
+                    </form>
+                    <div class="auth-footer">
+                        <p>Har du inget konto? <a href="#" onclick="showPage('register')">Skapa konto</a></p>
+                    </div>
+                </div>
+            </section>
         </div>
-    </section>
 
-    <!-- Hur det fungerar -->
-    <section id="hur-det-fungerar" class="hur-section">
-        <div class="section-header">
-            <span class="section-tag">Enkelt & smidigt</span>
-            <h2>Hur det fungerar</h2>
+        <!-- REGISTER PAGE -->
+        <div id="page-register" class="page">
+            <section class="auth-section">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <h1>Bli en Hjälpare</h1>
+                        <p>Skapa ett konto och börja erbjuda dina tjänster</p>
+                    </div>
+                    <form id="register-form" class="auth-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reg-firstname">Förnamn</label>
+                                <input type="text" id="reg-firstname" placeholder="Anna" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-lastname">Efternamn</label>
+                                <input type="text" id="reg-lastname" placeholder="Andersson" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-email">E-post</label>
+                            <input type="email" id="reg-email" placeholder="din@email.se" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-phone">Telefon</label>
+                            <input type="tel" id="reg-phone" placeholder="070-123 45 67" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-password">Lösenord</label>
+                            <input type="password" id="reg-password" placeholder="Minst 6 tecken" required minlength="6">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-password-confirm">Bekräfta lösenord</label>
+                            <input type="password" id="reg-password-confirm" placeholder="Upprepa lösenord" required>
+                        </div>
+                        <button type="submit" class="btn-primary btn-full">Skapa konto</button>
+                    </form>
+                    <div class="auth-footer">
+                        <p>Har du redan ett konto? <a href="#" onclick="showPage('login')">Logga in</a></p>
+                    </div>
+                </div>
+            </section>
         </div>
-        
-        <div class="hur-grid">
-            <div class="hur-step">
-                <div class="hur-number">01</div>
-                <h3>Välj kategori</h3>
-                <p>Bläddra bland våra yrkeskategorier och hitta den typ av hjälp du behöver.</p>
-            </div>
-            <div class="hur-step">
-                <div class="hur-number">02</div>
-                <h3>Jämför arbetare</h3>
-                <p>Se profiler, betyg och priser. Välj den som passar dina behov bäst.</p>
-            </div>
-            <div class="hur-step">
-                <div class="hur-number">03</div>
-                <h3>Boka direkt</h3>
-                <p>Kontakta arbetaren och boka en tid som passar er båda.</p>
-            </div>
+
+        <!-- PROFILE PAGE -->
+        <div id="page-profile" class="page">
+            <section class="profile-section">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <h1>Min profil</h1>
+                        <p>Uppdatera din personliga information</p>
+                    </div>
+                    <form id="profile-form" class="profile-form">
+                        <div class="profile-avatar-section">
+                            <div class="profile-avatar" id="profile-avatar">
+                                <span id="profile-initials">AB</span>
+                            </div>
+                            <div class="profile-avatar-info">
+                                <h3 id="profile-display-name">Anna Andersson</h3>
+                                <p id="profile-display-email">anna@mail.se</p>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3>Personuppgifter</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="profile-firstname">Förnamn</label>
+                                    <input type="text" id="profile-firstname" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-lastname">Efternamn</label>
+                                    <input type="text" id="profile-lastname" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="profile-email">E-post</label>
+                                <input type="email" id="profile-email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="profile-phone">Telefon</label>
+                                <input type="tel" id="profile-phone" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-primary">Spara ändringar</button>
+                    </form>
+                </div>
+            </section>
         </div>
-    </section>
+
+        <!-- MY LISTING PAGE -->
+        <div id="page-my-listing" class="page">
+            <section class="listing-section">
+                <div class="listing-card">
+                    <div class="listing-header">
+                        <h1>Min annons</h1>
+                        <p>Fyll i information om dina tjänster för att synas som hjälpare</p>
+                    </div>
+                    
+                    <form id="listing-form" class="listing-form">
+                        <div class="form-section">
+                            <h3>Välj kategori</h3>
+                            <p class="form-hint">Vilken typ av tjänster erbjuder du?</p>
+                            <div class="kategori-select" id="kategori-select">
+                                <!-- Kategorier laddas via JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3>Om dig och dina tjänster</h3>
+                            <div class="form-group">
+                                <label for="listing-title">Titel / Yrke</label>
+                                <input type="text" id="listing-title" placeholder="Ex: Erfaren städare, Certifierad rörmokare">
+                            </div>
+                            <div class="form-group">
+                                <label for="listing-description">Beskrivning</label>
+                                <textarea id="listing-description" rows="4" placeholder="Beskriv dig själv och dina tjänster. Vad erbjuder du? Vad är du bra på?"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3>Kunskaper & specialiteter</h3>
+                            <p class="form-hint">Lägg till dina specialområden (tryck Enter efter varje)</p>
+                            <div class="skills-input-container">
+                                <input type="text" id="skill-input" placeholder="Ex: Hemstädning, Bokföring, Webbdesign...">
+                                <button type="button" class="btn-add-skill" onclick="addSkill()">+ Lägg till</button>
+                            </div>
+                            <div class="skills-list" id="skills-list">
+                                <!-- Skills laddas här -->
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3>Prissättning</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="listing-price">Timpris (kr)</label>
+                                    <input type="number" id="listing-price" placeholder="350" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="listing-experience">Erfarenhet</label>
+                                    <select id="listing-experience">
+                                        <option value="">Välj...</option>
+                                        <option value="1 år">1 år</option>
+                                        <option value="2-3 år">2-3 år</option>
+                                        <option value="4-5 år">4-5 år</option>
+                                        <option value="6-10 år">6-10 år</option>
+                                        <option value="10+ år">10+ år</option>
+                                        <option value="15+ år">15+ år</option>
+                                        <option value="20+ år">20+ år</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3>Publicera annons</h3>
+                            <div class="form-group checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="listing-active">
+                                    <span class="checkmark"></span>
+                                    <span>Aktivera min annons (gör mig synlig för kunder)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Spara annons</button>
+                            <button type="button" class="btn-secondary" onclick="previewListing()">Förhandsgranska</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
 
     <!-- Footer -->
     <footer id="kontakt" class="footer">
         <div class="footer-content">
             <div class="footer-brand">
                 <div class="logo">
-                    <span class="logo-icon">🔨</span>
-                    <span class="logo-text">HantverksHjälpen</span>
+                    <span class="logo-icon">🤝</span>
+                    <span class="logo-text">Hjälparen</span>
                 </div>
-                <p>Din pålitliga partner för alla typer av hantverkstjänster.</p>
+                <p>Din pålitliga plattform för att hitta och erbjuda tjänster.</p>
             </div>
             <div class="footer-links">
                 <h4>Kategorier</h4>
                 <a href="#kategorier">Städare</a>
                 <a href="#kategorier">Rörmokare</a>
-                <a href="#kategorier">Snickare</a>
-                <a href="#kategorier">Målare</a>
+                <a href="#kategorier">Ekonom</a>
+                <a href="#kategorier">IT-support</a>
             </div>
             <div class="footer-links">
-                <h4>Kontakt</h4>
-                <a href="mailto:info@hantverkshjalpen.se">info@hantverkshjalpen.se</a>
-                <a href="tel:+46701234567">070-123 45 67</a>
+                <h4>Konto</h4>
+                <a href="#" onclick="showPage('register')">Bli Hjälpare</a>
+                <a href="#" onclick="showPage('login')">Logga in</a>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 HantverksHjälpen. Alla rättigheter förbehållna.</p>
+            <p>&copy; 2026 Hjälparen. Alla rättigheter förbehållna.</p>
         </div>
     </footer>
 
@@ -165,6 +379,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Toast notifications -->
+    <div class="toast-container" id="toast-container"></div>
 
     <script src="app.js"></script>
 </body>

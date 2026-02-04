@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hjälparen - Design 2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            width: 1080px;
+            height: 1350px;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffd700 100%);
+            position: relative;
+            overflow: hidden;
+            color: #1a1a1a;
+        }
+
+        .container {
+            padding: 4rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.3);
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            color: rgba(26,26,26,0.8);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .main-headline {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+        }
+
+        .highlight-box {
+            background: white;
+            border-radius: 25px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .highlight-box h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #ff6b35;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+        }
+
+        .price-section {
+            background: #1a1a1a;
+            color: white;
+            border-radius: 25px;
+            padding: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .price-label {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .price {
+            font-size: 6rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            color: #ffd700;
+        }
+
+        .price-unit {
+            font-size: 1.8rem;
+            opacity: 0.8;
+        }
+
+        .cta {
+            background: #1a1a1a;
+            color: white;
+            padding: 1.8rem 3rem;
+            border-radius: 50px;
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .sparkle {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.6;
+            animation: sparkle 2s infinite;
+        }
+
+        .sparkle-1 { top: 15%; left: 10%; animation-delay: 0s; }
+        .sparkle-2 { top: 25%; right: 15%; animation-delay: 0.5s; }
+        .sparkle-3 { bottom: 20%; left: 20%; animation-delay: 1s; }
+        .sparkle-4 { bottom: 30%; right: 10%; animation-delay: 1.5s; }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        @media print {
+            body {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sparkle sparkle-1">✨</div>
+    <div class="sparkle sparkle-2">✨</div>
+    <div class="sparkle sparkle-3">✨</div>
+    <div class="sparkle sparkle-4">✨</div>
+    
+    <div class="container">
+        <div>
+            <div class="logo">🤝 Hjälparen</div>
+            <p class="tagline">Din pålitliga städexpert</p>
+        </div>
+        
+        <div class="main-content">
+            <h1 class="main-headline">Sluta städa själv!<br>Vi gör det åt dig</h1>
+            
+            <div class="highlight-box">
+                <h2>Allt ingår i priset:</h2>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="feature-icon">🧹</span>
+                        <span>Grundlig städning</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🪟</span>
+                        <span>Fönsterputs</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">💧</span>
+                        <span>Djuprengöring</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✨</span>
+                        <span>Alla jobbiga sysslor</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="price-section">
+                <div class="price-label">Endast</div>
+                <div class="price">299</div>
+                <div class="price-unit">kr/timme</div>
+            </div>
+            
+            <div class="cta">
+                Boka på hjälparen.se
+            </div>
+        </div>
+    </div>
+</body>
+</html>

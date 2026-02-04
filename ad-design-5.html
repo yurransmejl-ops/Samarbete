@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hjälparen - Design 5</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            width: 1080px;
+            height: 1350px;
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+            color: #1a1a1a;
+        }
+
+        .container {
+            padding: 4rem;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            border-radius: 30px;
+            padding: 3rem;
+            color: white;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #ff6b35;
+            margin-bottom: 1rem;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 3rem;
+            font-weight: 500;
+        }
+
+        .main-headline {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            color: #1a1a1a;
+        }
+
+        .subheadline {
+            font-size: 1.5rem;
+            color: #666;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 3rem;
+        }
+
+        .features-list li {
+            font-size: 1.4rem;
+            padding: 1rem 0;
+            padding-left: 3rem;
+            position: relative;
+            border-bottom: 1px solid #eee;
+            font-weight: 500;
+        }
+
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+
+        .features-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-size: 2rem;
+            color: #ff6b35;
+            font-weight: 900;
+        }
+
+        .price-box {
+            background: #1a1a1a;
+            color: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        .price-label {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .price {
+            font-size: 5.5rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            color: #ff6b35;
+        }
+
+        .price-unit {
+            font-size: 1.5rem;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .right-headline {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+
+        .right-subheadline {
+            font-size: 1.4rem;
+            margin-bottom: 3rem;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        .included-box {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .included-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .included-items {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .included-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cta {
+            background: white;
+            color: #ff6b35;
+            padding: 1.5rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .decorative-shape {
+            position: absolute;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            opacity: 0.1;
+            border-radius: 50%;
+        }
+
+        .shape-1 {
+            width: 500px;
+            height: 500px;
+            top: -250px;
+            right: -250px;
+        }
+
+        .shape-2 {
+            width: 300px;
+            height: 300px;
+            bottom: -150px;
+            left: -150px;
+        }
+
+        @media print {
+            body {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="decorative-shape shape-1"></div>
+    <div class="decorative-shape shape-2"></div>
+    
+    <div class="container">
+        <div class="left-column">
+            <div>
+                <div class="logo">🤝 Hjälparen</div>
+                <p class="tagline">Professionell städtjänst</p>
+            </div>
+            
+            <div>
+                <h1 class="main-headline">Professionell städning som passar dig</h1>
+                <p class="subheadline">Vi tar hand om allt så att du kan fokusera på det som verkligen betyder något.</p>
+                
+                <ul class="features-list">
+                    <li>Grundlig städning</li>
+                    <li>Fönsterputs ingår</li>
+                    <li>Djuprengöring</li>
+                    <li>Alla jobbiga sysslor</li>
+                </ul>
+            </div>
+
+            <div class="price-box">
+                <div class="price-label">Endast</div>
+                <div class="price">299</div>
+                <div class="price-unit">kr per timme</div>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <h2 class="right-headline">Allt ingår i priset!</h2>
+            <p class="right-subheadline">Inga dolda kostnader, inga överraskningar. Ett fast pris som inkluderar allt du behöver.</p>
+            
+            <div class="included-box">
+                <h3>Vad ingår:</h3>
+                <div class="included-items">
+                    <div class="included-item">✓ Städning</div>
+                    <div class="included-item">✓ Fönsterputs</div>
+                    <div class="included-item">✓ Djuprengöring</div>
+                    <div class="included-item">✓ Alla sysslor</div>
+                </div>
+            </div>
+            
+            <div class="cta">
+                Boka på hjälparen.se
+            </div>
+        </div>
+    </div>
+</body>
+</html>
